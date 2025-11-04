@@ -3,78 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kernel Panic! - O Jogo</title>
+    <title>Kernel Panic! - Terminal RPG</title>
     
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
     
     <style>
+        /* Reset básico e tema escuro */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
+            font-family: 'Consolas', 'Courier New', monospace; /* Fonte de terminal */
+            background-color: #1a1a1a; /* Fundo escuro */
+            color: #e0e0e0; /* Texto claro */
             margin: 0;
-            padding: 2rem;
+            padding: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .container {
-            max-width: 900px;
-            width: 100%;
-        }
-        h1 {
-            color: #ff4136; /* Vermelho "Panic" */
-            text-align: center;
-            font-size: 3rem;
-            text-shadow: 0 0 10px #ff4136;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .download-btn {
-            display: inline-block;
-            background-color: #28a745;
-            color: #ffffff;
-            padding: 12px 24px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .download-btn:hover {
-            background-color: #218838;
+            justify-content: center;
+            align-items: flex-start; /* Alinha o conteúdo ao topo */
+            min-height: 100vh;
         }
         
-        /* 2. O Terminal onde o Jogo Roda */
+        .main-container {
+            width: 95%;
+            max-width: 1100px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            background-color: #282c34; /* Fundo do container principal (mais escuro que o corpo) */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden; /* Garante que o terminal não saia da borda */
+        }
+
+        /* Área de Cabeçalho/Informação */
+        .header {
+            padding: 20px 30px;
+            background-color: #3e4451; /* Cor mais clara para o cabeçalho */
+            border-bottom: 3px solid #ff4136; /* Linha de destaque (vermelho "Panic") */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-group h1 {
+            color: #ff4136;
+            font-size: 2.2rem;
+            margin: 0;
+            text-shadow: 0 0 5px rgba(255, 65, 54, 0.7);
+        }
+
+        .title-group p {
+            color: #abb2bf;
+            margin: 5px 0 0 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Botão de Download */
+        .download-btn {
+            background-color: #5aa116; /* Verde "Sucesso" */
+            color: #ffffff;
+            padding: 10px 20px;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .download-btn:hover {
+            background-color: #4a8212;
+            transform: translateY(-2px);
+        }
+
+        /* Estilo do Terminal (onde o jogo roda) */
+        .terminal-area {
+            padding: 20px 30px;
+            background-color: #1e2127; /* Fundo interno do terminal (bem escuro) */
+        }
+        
+        /* PyScript Terminal Output */
+        /* O PyScript cria um elemento especial. Forçamos o estilo de terminal nele. */
         #game-terminal {
             width: 100%;
-            height: 500px;
-            border: 1px solid #ff4136;
+            height: 600px; /* Altura generosa para o terminal */
+            border: 1px solid #3e4451;
             border-radius: 5px;
+            padding: 15px;
+            overflow: auto; /* Scroll se necessário */
+            box-sizing: border-box;
         }
+        
+        /* O prompt do input do PyScript é um input padrão, garantimos que se destaque */
+        #game-terminal input {
+            background-color: #3e4451 !important;
+            color: #61afef !important; /* Cor azul para o input */
+            border: 1px solid #ff4136;
+            padding: 5px;
+            margin-top: 5px;
+            width: 98%;
+            font-family: inherit;
+        }
+
+        /* Footer/Rodapé */
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.8rem;
+            color: #888;
+            background-color: #282c34;
+            border-top: 1px dashed #3e4451;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="main-container">
+        
         <div class="header">
-            <h1>Kernel Panic!</h1>
-            <p>Rode o RPG de terminal diretamente no seu navegador ou baixe o código-fonte.</p>
+            <div class="title-group">
+                <h1>Kernel Panic!</h1>
+                <p>O RPG de Terminal alimentado por PyScript.</p>
+            </div>
             
             <a href="kernel_panic_original.py" download class="download-btn">
-                Baixar Jogo (Open-Source)
+                Download do Código-Fonte (.py)
             </a>
         </div>
 
-        <py-config>
-            [[packages]]
-            rich = "*"
-        </py-config>
+        <div class="terminal-area">
+            
+            <py-config>
+                [[packages]]
+                rich = "*"
+            </py-config>
 
-        <py-script src="kernel_panic_web.py" terminal output="game-terminal"></py-script>
+            <div id="game-terminal">
+                <p style="color: yellow;">Iniciando PyScript e carregando biblioteca 'rich'...</p>
+                <p>Aguarde alguns segundos até o prompt aparecer.</p>
+            </div>
+            
+            <py-script src="kernel_panic_web.py" terminal output="game-terminal"></py-script>
 
+        </div>
+
+        <div class="footer">
+            Kernel Panic! é um projeto Open-Source.
+        </div>
     </div>
 </body>
 </html>
