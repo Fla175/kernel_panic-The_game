@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kernel Panic! - Terminal RPG</title>
-    
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    
+
     <style>
         /* Reset básico e tema escuro */
         body {
@@ -74,35 +71,6 @@
             transform: translateY(-2px);
         }
 
-        /* Estilo do Terminal (onde o jogo roda) */
-        .terminal-area {
-            padding: 20px 30px;
-            background-color: #1e2127; /* Fundo interno do terminal (bem escuro) */
-        }
-        
-        /* PyScript Terminal Output */
-        /* O PyScript cria um elemento especial. Forçamos o estilo de terminal nele. */
-        #game-terminal {
-            width: 100%;
-            height: 600px; /* Altura generosa para o terminal */
-            border: 1px solid #3e4451;
-            border-radius: 5px;
-            padding: 15px;
-            overflow: auto; /* Scroll se necessário */
-            box-sizing: border-box;
-        }
-        
-        /* O prompt do input do PyScript é um input padrão, garantimos que se destaque */
-        #game-terminal input {
-            background-color: #3e4451 !important;
-            color: #61afef !important; /* Cor azul para o input */
-            border: 1px solid #ff4136;
-            padding: 5px;
-            margin-top: 5px;
-            width: 98%;
-            font-family: inherit;
-        }
-
         /* Footer/Rodapé */
         .footer {
             text-align: center;
@@ -127,22 +95,6 @@
             <a href="kernel_panic_original.py" download class="download-btn">
                 Download do Código-Fonte (.py)
             </a>
-        </div>
-
-        <div class="terminal-area">
-            
-            <py-config>
-                [[packages]]
-                rich = "*"
-            </py-config>
-
-            <div id="game-terminal">
-                <p style="color: yellow;">Iniciando PyScript e carregando biblioteca 'rich'...</p>
-                <p>Aguarde alguns segundos até o prompt aparecer.</p>
-            </div>
-            
-            <py-script src="kernel_panic_web.py" terminal output="game-terminal"></py-script>
-
         </div>
 
         <div class="footer">
